@@ -1,0 +1,80 @@
+div(data-role="controlgroup", data-type="horizontal", data-mini="true")
+	a(href="#", data-role="button", data-icon="check", data-theme="c") Save
+	a(href="#", data-role="button", data-icon="refresh", data-theme="c")#disc Discover
+br
+
+div( data-role="collapsible-set", data-theme="c", data-content-theme="d")
+	- each row in sensors
+		- var ishot = "cool"
+		- if(row.temp > row.altemp) ishot = "hot"
+		div(data-role="collapsible")
+			h3=row.rowid+'.'+row.info
+			ul(data-role="listview")
+				li
+					form(id=row.rowid)
+						input(type="hidden",value=row.rowid)
+						div(class="ui-grid-c")
+							div(class="ui-block-a")
+								label Device Name
+								input(name="info", type="text",value=row.info,maxlength="10")
+	
+							div(class="ui-block-b")
+								label Alarm Temperature
+								input(name="altemp", step="0.1", pattern="[0-9.-]*",type="number",value=row.altemp)
+
+							div(class="ui-block-c")
+								label Alarm Minutes
+								input(name="algrace",step="1", pattern="[0-9.-]*",type="number",value=row.algrace,min=5)	
+
+							div(class="ui-block-d")
+								label Sensor ID
+								select(name="sid", data-native-menu="false", tabindex="-1",data-inline="false",data-corners="false",class="select")
+									option(value=row.sid,selected="selected")=row.sid
+									- if(row.sid!='-None-')
+										option(value="-None-") -None-
+									- each sid in sids
+										option(value=sid.sid)=sid.sid
+
+script.
+	function arr2ass(obj,key){var x = {}; for(var i in obj) {x[obj[i][key]] = obj[i];} return x;}
+	var vsensors = {form:false, save:$('a[data-icon=check]'),disco:$('a[data-icon=refresh]')};
+	$(document).on("expand", "div[data-role=collapsible-set] div[data-role=collapsible]", function(){
+		vsensors.form = $(this).find('form');
+	}).on('collapse',function(){vsensors.form=false;});
+	
+	vsensors.disco.on('click',function(e){
+		vsensors.ul = $('<ul data-role="listview" />');
+		$.ajax({url:"/?func=discover"}).done(function(data) {
+			for(var i in data) {
+				if(data[i].up) vsensors.ul.append('<li>'+data[i].sid+' : '+tpad(data[i].temp)+'</li>');
+			}
+			msgpop(vsensors.ul,{pto:120000,type:2,title:'Connected Sensors'})
+			setTimeout(function(){ $('#popup ul').listview().trigger("create").trigger('refresh')});
+		});
+	});
+		
+	vsensors.save.on('click',function(e){
+		e.preventDefault();
+		cl(vsensors.form.serializeArray());
+		var sql = 'UPDATE zones1 SET ';
+		$.each(vsensors.form.serializeArray(), function(i,cell) { sql += cell.name+"='"+cell.value+"',";});
+		sql = sql.slice(0,-1) + " WHERE rowid="+vsensors.form.attr('id');
+		cl(sql);
+		$.ajax({url:"/?page=put&sql="+sql}).done(function(data) {
+			page({href:'@zones'});
+			/*
+			$.ajax({url:"/?page=put&sql="+sql}).done(function(data) {
+				$.ajax({url:"/?page=zones&reload=true"}).done(function(data) {
+					var sensors = arr2ass(data.sensors,'rowid');
+					for(var s in data.sensors) {
+						var els = $('form#'+data.sensors[s].rowid).find(":input");
+						$.each(els,function(i,el) {
+							if(el.name) el.value = sensors[data.sensors[s].rowid][el.name];
+						});
+					}
+	
+				});
+			});
+			*/
+		});
+	});

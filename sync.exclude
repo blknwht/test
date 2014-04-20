@@ -1,0 +1,6 @@
+.gitignore
+sync.exclude
+sync.sh
+*.log
+*.off
+*.db

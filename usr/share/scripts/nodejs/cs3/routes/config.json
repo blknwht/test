@@ -1,0 +1,7 @@
+{   
+    "g_dbf" : "/usr/share/node/cs/deh.sqlite",
+	"g_debug" : true,
+	"g_freq" : 60,
+	"g_bl" : false,
+	"g_emails" : false    
+}

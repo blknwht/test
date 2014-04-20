@@ -1,0 +1,120 @@
+style.
+	div.status {display:none; }
+	fieldset.cs { border:1px solid gray;border-radius:8px;}
+	legend.cs {margin-left:8px;}
+	.readonly {background:#EEEEEE;}
+	
+	
+	/* Slider Hacks */
+	#quality .ui-disabled .ui-slider-track {opacity:1;}
+	#quality input {opacity:1 !important;}
+	#quality .ui-slider .ui-btn-inner {background:maroon; }
+	
+	/*
+	#quality .ui-slider-track {margin-left:20px;margin-right:20px}
+	#quality .ui-slider-handle {display:none;}
+	*/
+
+script.
+	window.clearTimeout(sigtmr);
+	setTimeout(dosig,1000);
+	var sigtmr = setInterval(dosig,5000);
+
+	function dosig(){
+		if($('input#signal').is(":hidden")) return window.clearTimeout(sigtmr);
+		if($('#enabled').val()==0) return;
+		$.ajax({url:"/?func=sigpct"}).done(
+			function(data) {
+				dat = JSON.parse(data);
+				$('#signal').val(dat.signal).slider('refresh');
+				$('#link').val(dat.link).slider('refresh');
+				$('#noise').val(dat.noise).slider('refresh');
+		});		
+	}
+
+	$('#enabled').on('change',function(e){
+		var me = $(this);
+		var func = "wifion"; if(me.val()==0) func = "wifioff"
+		$('#wifi').addClass('ui-disabled');
+		$.ajax({url:"/?func="+func}).done(
+			function(data) {
+				$('#wifi').removeClass('ui-disabled');
+				if(data.txstat.error===1) me.val(!me.val).slider('refresh');
+				if($('#enabled').val()==1) $('div#status').show('slow'); else $('div#status').hide('slow');
+				msgpop(data.txstat.msg,{title:'Wireless Lan'});
+		});
+	})
+		
+form#wifi(class="ui-grid-a jsload-a")
+	fieldset.cs
+		legend.cs Wireless Configuration
+		div(data-role="fieldcontain")
+			label(for="essid") SSID
+			select(name="essid",data-native-menu="false",tabindex="-1",data-inline="false",data-corners="false",class="select",data-theme="c")#essid
+				- each row in ssids
+					- if(row=='')
+						option(value=row selected="selected")=row
+					- else
+						option(value=row)=row
+	
+		div(data-role="fieldcontain")
+			label(for="encryption") Encryption
+			select(name="encryption",data-native-menu="false",tabindex="-1",data-inline="false",data-corners="false",class="select",data-theme="c")#encryption
+				option(value="WPA") WPA
+				option(value="WEP") WEP
+				option(value="OPEN") OPEN
+
+		div(data-role="fieldcontain")
+			label(for="passkey") Pass Key
+			input#passkey(type="password" name="passkey" value="")			
+
+		div(data-role="fieldcontain")				
+			label(for="enabled") Enabled
+			select#enabled(name="enabled", data-role="slider", data-theme="c")
+				option(value="0") No
+				option(value="1") Yes
+
+	div#status
+		br
+		fieldset.cs
+			legend.cs Network
+			input(type="hidden" name="interface" value="wlan0").key
+			
+			div(data-role="fieldcontain")
+				label(for="ip_address") IP Address
+				input#ip_address(name="ip_address", readonly="readonly").readonly
+	
+			div(data-role="fieldcontain")
+				label(for="subnet_mask") Subnet
+				input#subnet_mask(name="subnet_mask", readonly="readonly").readonly
+	
+			div(data-role="fieldcontain")
+				label(for="routers") Gateway
+				input#routers(type="text", name="routers", readonly="readonly").readonly
+	
+			div(data-role="fieldcontain")				
+				label(for="net_dhcp") DHCP
+				select#net_dhcp(name="net_dhcp", data-role="slider", data-theme="c" disabled="disabled")
+					option(value="0") No
+					option(value="1" selected="selected") Yes
+	
+		br
+		fieldset.cs#quality
+			legend.cs Signal Quality
+	
+			div(data-role="fieldcontain")
+				label(for="signal") Signal %
+				input(type="range" id="signal" min="0" max="100" step="1" disabled="true",data-theme="b")
+	
+			div(data-role="fieldcontain")
+				label(for="link") Link %
+				input(type="range" id="link" min="0" max="100" step="1" disabled="true",data-theme="b")
+	
+			div(data-role="fieldcontain")
+				label(for="noise") Noise %
+				input(type="range" id="noise" min="0" max="100" step="1" disabled="true",data-theme="b")
+
+
+	div
+		a(href="#", data-role="button", data-inline="true", data-theme="b",data-icon="check", class="fsave") Save
+		

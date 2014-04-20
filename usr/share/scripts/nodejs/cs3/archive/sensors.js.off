@@ -1,0 +1,55 @@
+var fn = require('./func');
+var fs = require('fs');
+var sys = require('sys');
+var async = require('async');
+
+function isnow(cb){
+	var dates = {};
+	dates.now = new Date();
+	//dates.now.setHours(dates.now.getHours()+fn.tzos);
+	dates.hr = fn.pad(dates.now.getHours(),2); dates.min = fn.pad(dates.now.getMinutes(),2);
+	dates.stamp = new Date(); dates.stamp.setHours(dates.hr); dates.stamp.setMinutes(dates.min); dates.stamp.setSeconds(0,0,0); dates.stamp = dates.stamp.getTime(); 
+	var sql = "SELECT * from schedule WHERE hr = "+dates.hr+" AND min = "+dates.min;
+	fn.dbRows(sql,function(rows){ 
+		dates.do = rows.length;
+		cb(dates);
+	});	
+}
+
+function arr2obj(arr,key){
+	var grp = {};
+	for (i=0; i < arr.length; i++) {
+	   dkey = [arr[i][key]];
+	   if (!(dkey in grp)) grp[dkey] = [];
+	   grp[dkey].push(arr[i]);
+	}
+	return grp;	
+}
+
+function update(){
+	fn.dbRows("SELECT rowid, * from zones WHERE sid NOT NULL",function(rows){ 
+		var zones = arr2obj(rows,'sid');			
+		isnow(function(dates){	
+			var hrmin = dates.hr+':'+dates.min; 
+			var day = dates.now.getDate();		
+			fn.sensors(function(devs){
+				async.eachSeries(devs,function(dev,next) {
+					if(!dev.up) return;
+					var sql = '';
+					if(dates.do !==0 && zones[dev.sid]) sql += "INSERT INTO data ('temp','stamp','zid','hrmin','deviceid','day') VALUES('"+dev.temp+"','"+dates.stamp+"','"+zones[dev.sid][0].rowid+"','"+hrmin+"','0',"+day+");"	
+					sql += "INSERT OR IGNORE INTO sensor ('sid','stamp','temp') VALUES('" + dev.sid + "','"+dev.stamp+"','"+dev.temp+"');";
+					sql += "UPDATE sensor SET stamp ='"+dev.stamp+"', temp='"+dev.temp+"' WHERE sid = '"+dev.sid+"';";				
+					//fn.cl(sql);
+					fn.dbExec(sql,function(err){
+						//fn.cl(err);	
+						next();
+					});
+				}, function(err){ return; });
+			});
+		
+		});
+	});
+}
+
+update();
+

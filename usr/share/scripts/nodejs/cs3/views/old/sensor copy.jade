@@ -1,0 +1,49 @@
+extends layout
+
+block head
+	meta(name="viewport", content="width=297mm, height=210mm, initial-scale=1")
+	script(src="javascripts/jquery.flot.min.js")
+	script(src="javascripts/jquery.flot.time.js")
+	script
+		$(document).on('pageshow', function() {
+			var did = urlVar('did');
+			charts(did);
+			
+			$("input[type='radio']").bind( "change", function(event, ui) {
+				charts(did);
+			});
+			
+			setInterval(function() {
+				if($('#chart_wr').is(':visible')) charts(did);
+			},30000);
+
+		});
+		
+
+
+block content
+	div(data-role="fieldcontain",style="margin:0 auto; width:350px;padding-left:80px")
+		fieldset(data-role="controlgroup", data-type="horizontal",data-mini="true")
+			input(type="radio", name="rv", id="rd", value="month")
+			label(for="rd") Month
+			input(type="radio", name="rv", id="rc", value="week")
+			label(for="rc") Week
+			input(type="radio", name="rv", id="ra", value="yday")
+			label(for="ra") Yesterday
+			input(type="radio", name="rv", id="rb", value="today", checked="checked")
+			label(for="rb") Today
+			
+	div(class="chart-container", id="chart1")
+		a(class="print",href="#", data-role="button", data-mini="true", data-inline="true",style="float:right;position:relative;top:-40px;right:11%") Print
+		h3()
+		div(class="chart",style="height:500px;")
+	
+	div#report(style="display:none;")
+			
+	div(data-role="fieldcontain",style="margin:0 auto; width:700px;padding-left:80px")
+		fieldset(data-role="controlgroup", data-type="horizontal",data-mini="true")
+			-var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+				each month in months
+					input(type="radio", name="months", id=month, value=month)
+					label(for=month)=month	
+

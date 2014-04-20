@@ -1,0 +1,54 @@
+form#global(class="ui-grid-a jsload-a")
+
+	fieldset.cs
+		legend.cs Email Alerts
+		input(type="hidden" name="rowid" value="1").key
+		
+		div(data-role="fieldcontain")
+			label(for="e_server") Email Server
+			input#e_server(name="e_server")
+
+		div(data-role="fieldcontain")
+			label(for="e_user") User ID
+			input#e_user(name="e_user")
+
+		div(data-role="fieldcontain")
+			label(for="e_pass") Password
+			input#e_pass(type="password" name="e_pass")
+
+		div(data-role="fieldcontain")
+			label(for="e_from") Email From
+			input#e_from(type="email" name="e_from")
+
+		div(data-role="fieldcontain")
+			label(for="e_to") Email To List
+			input#e_to(type="text" name="e_to")
+
+		div(data-role="fieldcontain")				
+			label(for="e_on") Enable Email
+			select#e_on(name="e_on", data-role="slider", data-theme="c")
+				option(value="0") No
+				option(value="1" selected="selected") Yes
+
+	br
+	fieldset.cs
+		legend.cs General
+		div(data-role="fieldcontain")
+			label(for="location") Hub Location
+			input#location(name="location")		
+
+		div(data-role="fieldcontain")				
+			label(for="silent") Silent Mode
+			select#silent(name="silent", data-role="slider", data-theme="c")
+				option(value="0" selected="selected") No
+				option(value="1") Yes
+		
+		div(data-role="fieldcontain")				
+			label(for="dynon") DynDns
+			select#dynon(name="dynon", data-role="slider", data-theme="c").readonly
+				option(value="0" selected="selected") No
+				option(value="1") Yes
+
+	div
+		a(href="#", data-role="button", data-inline="true", data-theme="b",data-icon="check", class="fsave") Save
+		

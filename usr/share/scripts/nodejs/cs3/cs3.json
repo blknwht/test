@@ -1,0 +1,13 @@
+{
+    "global": {
+        "e_server": "mail.looenet.com",
+        "e_user": "ishotgun",
+        "e_pass": "spyder",
+        "e_from": "cs@peter-c.net",
+        "e_to": "home@peter-c.net,pac@dis.com.sg",
+        "e_on": "1",
+        "location": "My Desk",
+        "silent": "0",
+        "dynon": "0"
+    }
+}

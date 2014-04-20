@@ -1,0 +1,37 @@
+style.
+	fieldset.cs { border:1px solid gray;border-radius:8px;}
+	legend.cs {margin-left:8px;}
+	.readonly {background:#EEEEEE;}
+
+script.
+	$('.purge').on('click',function(e) {
+		msgpop('Are you VERY sure ?');
+		//$('#enabled').val(0);
+	});
+		
+form#global(class="ui-grid-a")
+	fieldset.cs
+		legend.cs Purge Static Data
+		div(data-role="fieldcontain")				
+			label(for="pur_sensors") Sensors
+			select#pur_sensors(name="pur_sensors", data-role="slider", data-theme="c")
+				option(value="0" selected="selected") No
+				option(value="1") Yes
+
+		div(data-role="fieldcontain")				
+			label(for="pur_zones") Zones
+			select#pur_zones(name="pur_zones", data-role="slider", data-theme="c")
+				option(value="0" selected="selected") No
+				option(value="1") Yes
+	br
+	fieldset.cs
+		legend.cs Purge Historical Data
+		div(data-role="fieldcontain")				
+			label(for="pur_zones") Purge
+			select#pur_zones(name="pur_zones", data-role="slider", data-theme="c")
+				option(value="0" selected="selected") No
+				option(value="1") Yes
+
+			
+	div
+		a(href="#", data-role="button", data-inline="true", data-theme="b",data-icon="check", class="purge") Go

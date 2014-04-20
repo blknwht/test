@@ -1,0 +1,55 @@
+extends layout
+
+block head
+
+block content
+	script
+		$(document).on('pageshow', function() {
+			$('.delete').click(function(){
+				setDialog("Delete Record","This action cannot be undone.");
+				$("#popupDialog").popup('open');
+				var id = this.id.split('.');
+				var sql = "DELETE FROM schedule WHERE hr='"+ id[0] +"' and min='"+ id[1] +"'";
+				$('#popupDialog #confirm').click(function(e){
+					$.ajax({ url:"/db/?mode=put&sql="+sql}).done(function(data) { reLoad(); });
+				});
+			});
+		
+		});	
+	
+	div(data-role="controlgroup", data-type="horizontal", data-mini="true")
+		a(href="#", data-role="button", data-icon="add", data-theme="c") Add
+		a(href="#", data-role="button", data-icon="refresh", data-theme="c") Refresh
+
+	<!-- EDIT FORM -->
+	ul(style="display:none", data-role="listview", data-theme="", id="add", data-inset="true" )
+		li
+			form#schedule_add
+				div(class="ui-grid-b")
+					div(class="ui-block-a")
+						label Hour
+						input(name="hr", step="1", min="0", max="24", pattern="[0-9]*",type="number",value="0")
+					div(class="ui-block-b")
+						label Minute
+						input(name="min", step="5", min="0", max="60", pattern="[0-9]*",type="number",value="0")
+					div(class="ui-block-c")
+						a(href="#", data-role="button", data-icon="delete", data-theme="c", data-mini="false", style="margin:23px 0 0 10px; width:40%;",data-inline="true",id="cancel") Cancel
+						a(href="#", data-role="button", data-icon="check", data-theme="b", data-mini="false", style="margin:23px 0 0 10px; width:40%;",data-inline="true",id="save") Save
+						
+
+	ul(data-role="listview", data-theme="", id="schedule", data-inset="true", data-split-icon="delete", data-icon="", data-split-theme="d")
+		- each row in schedule
+			li
+				a(href="#test")=row.hrmin
+				a(href="#", data-rel="popup", data-position-to="window", data-transition="pop",id=row.id,class="delete") Delete
+
+	<!--- DIALOG --->
+	div(data-role="popup", id="popupDialog", data-overlay-theme="a", data-theme="c", style="min-width:300px; max-width:500px;", class="ui-corner-all")
+		div(data-role="header", data-theme="a", class="ui-corner-top")
+			h1 Delete Page?
+		
+		div(data-role="content", data-theme="d", class="ui-corner-bottom ui-content",style="text-align:center;")
+			p This action cannot be undone.
+			a(href="#", data-role="button", data-inline="true", data-rel="back", data-theme="c",id="cancel") Cancel
+			a(href="#", data-role="button", data-inline="true", data-rel="back", data-transition="flow", data-theme="b",id="confirm") Delete
+	

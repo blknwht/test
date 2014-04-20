@@ -1,0 +1,44 @@
+extends layout
+
+block head
+	script(type="text/javascript")
+		//var sensors = !{sensors};	cl(sensors);
+		var refresh; 
+		$(document).on('pagecreate', function(e,ui) {
+			cl('create');
+			$("input[type='radio']").bind( "change", function(e,ui) {charts(); cl('radio');});
+		});
+		
+		//$('#Home').live('#Home', cl('live'));
+		$( document ).delegate("#Home", "pageshow", function(e,ui) {
+			clearInterval(refresh);
+			refresh = setInterval(function() {if($('#chart_wr').is(':visible')) charts();},30000);
+			charts();
+		});
+		
+block content
+	div(data-role="fieldcontain",style="margin:0 auto; width:270px;padding-left:50px")
+		fieldset(data-role="controlgroup", data-type="horizontal",data-mini="true")
+			input(type="radio", name="when", id="rc", value="d.7")
+			label(for="rc") Week
+			input(type="radio", name="when", id="ra", value="d.1")
+			label(for="ra") Yesterday
+			input(type="radio", name="when", id="rb", value="d.0", checked="checked")
+			label(for="rb") Today
+
+	div(class="ui-grid-a", id="chart_wr")
+		div(class="ui-block-a chart-container", id="chart1")
+			h3()
+			div(class="chart")
+			
+		div(class="ui-block-b chart-container", id="chart2")
+			h3()
+			div(class="chart")
+			
+		div(class="ui-block-a chart-container", id="chart3")
+			h3
+			div(class="chart")
+			
+		div(class="ui-block-b chart-container", id="chart4")
+			h3
+			div(class="chart")

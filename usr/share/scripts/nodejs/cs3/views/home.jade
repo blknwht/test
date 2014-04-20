@@ -1,0 +1,35 @@
+script.
+	$('.chart').height( ((cdheight()-150) / 2) +'px');
+	
+	$('.chart-container').click(function(e){
+		g_zid = $(this).attr('data-zid');
+
+		
+		// Reload the page
+		page({href:'@sensor'},function(page,div,data){
+			//div.html(data).trigger("create").show();
+			
+			//div.attr('data-zid',zid);
+
+			//gData(ghv);
+		})
+	});
+	
+	window.clearTimeout(chtmr); var chtmr = setInterval(function(){if(!$('#home').is(":hidden")) home()},60000); 
+
+div(class="ui-grid-a", id="chart_wr")
+	div(class="ui-block-a chart-container", id="chart1")
+		h3.top
+		div(class="chart", data-role="none",alt="Click to Zoom")
+		
+	div(class="ui-block-b chart-container", id="chart2")
+		h3.top
+		div(class="chart", data-role="none",alt="Click to Zoom")
+		
+	div(class="ui-block-a chart-container", id="chart3")
+		h3.top
+		div(class="chart", data-role="none",alt="Click to Zoom")
+		
+	div(class="ui-block-b chart-container", id="chart4")
+		h3.top
+		div(class="chart", data-role="none",alt="Click to Zoom")

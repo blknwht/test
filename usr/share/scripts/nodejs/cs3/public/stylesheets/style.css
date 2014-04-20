@@ -1,0 +1,242 @@
+
+form {
+	padding:0;
+	margin:0;
+}
+
+#contentDiv > *{
+	display: none;
+	
+}
+
+.ui-grid-b > *:nth-child(n) {
+  margin-left: 1%;
+  margin-right: -0.5px;
+  width: 32.333%;
+}
+
+.ui-grid-c > *:nth-child(n) {
+  margin-left: 1%;
+  margin-right: -0.5px;
+  width: 24%;
+}
+
+.ui-grid-d > *:nth-child(n) {
+  margin-left: 1%;
+  margin-right: -0.5px;
+  width: 19%;
+}
+
+/***** HOME CHARTS *****/
+.chart-container {
+    margin:auto;
+    padding:5px 0 20px 0;
+       
+}
+
+.chart-container #head {
+    min-width:80%;
+    display:inline-block;
+    margin-left:10%;       
+}
+
+.chart-container div.chart {
+    margin:0 0 0 10%;
+    min-width:80%;
+    display:inline-block;
+    height:300px;	
+}
+
+#chart_wr .chart-container div.chart {
+    cursor: pointer;
+    min-height:40%;
+    background:#EEEEEE;
+    border-radius: 8px;
+}
+
+.chart-container h3 {
+	text-align:center;
+	margin-bottom:5px;
+	width:80%;
+	margin-left:10%;
+}
+
+.chart-container .chart {
+	min-width:30%;
+}
+
+
+h3 > span {
+	display:inline-block;
+	padding:3px 7px 1px 7px;
+	border-radius: 8px;
+	font-size: 0.8em;
+	text-shadow: none;
+	margin-left:5px;
+}
+
+h3 > span.off {
+	xbackground-color: #CCCCCC;
+}
+
+h3 > span.hot {
+	background-color: red;
+	color:white;
+}
+
+h3 > span.cool {
+	background-color: green;
+	color:white;
+}
+
+
+/****** SENSOR *****/
+
+input.hot {
+	color: red;
+	font-weight:bold;
+}
+
+input.warm{
+	color:orange;	
+}
+
+input.cool{
+	color:green;	
+}
+
+li.hot {
+	background-color: #F08080;
+}
+
+li.cool {
+	background-color: #66CDAA;
+}
+
+/*--- REPORT ---*/
+div#report {
+	width:1px;
+}
+
+div#report table {
+	border:1px solid;
+	font-size: 0.8em;
+}
+
+div#report table tr {
+	margin-bottom: 3px;
+}
+
+div#report table thead {
+	background: #BBBBBB;
+	text-align: center;
+}
+
+div#report table td {
+	width:3.125%;
+	white-space: nowrap;
+}
+
+div#report table thead td {
+	text-align: center;
+}
+
+div#report table tbody td {
+	padding-right: 4px;
+	text-align: right;
+}
+
+div#report table tr:nth-child(even) {
+	color:#000000;
+	background-color:#DDDDDD;
+}
+
+/*
+@media print{
+@page {size: landscape}
+body{
+	-webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+	filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+	width:297mm;
+	height: 210mm;	
+}
+
+}
+*/
+
+/***** LISTVIEW *****/
+.custom-collapsible {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border-width:0 !important; 
+}
+
+.custom-collapsible h3 {
+	margin-bottom:-2px !important;
+}
+
+.custom-collapsible h3 a {
+    border-radius: 0 !important;
+    border-width:0 !important; 
+    border-bottom-width: 1px !important;
+    height:40px;
+    margin-top:6px;
+}
+
+.custom-li {
+    padding: 0 !important;
+}
+
+.custom-li-last {
+    border-top-width: 0 !important; 
+}
+
+/***** Field Containers *****/
+.ui-field-contain .ui-controlgroup-controls {
+	width:auto;
+}
+
+.ui-field-contain {
+	margin:0.5em !important;
+}
+
+.custom-li {
+	padding-top: 30px;
+}
+
+.clone {
+	display: node;
+}
+
+/***** SELECT *****/
+.ui-select a {
+	border-radius: 8px;	
+}
+
+.ui-select .ui-btn-inner {
+	padding-bottom:0.4em;
+}
+
+#popup li {
+	text-align:center;
+	text-transform: uppercase;
+}
+
+input[readonly="readonly"]{
+	background: #EEEEEE;
+}
+
+fieldset.cs { 
+	border:1px solid gray;
+	border-radius:8px;
+	padding-top: 4px;
+}
+
+legend.cs {
+	margin-left:8px;
+	font-weight:bold;
+}
+.readonly {
+	background:#EEEEEE;
+}
+

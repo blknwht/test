@@ -1,0 +1,10 @@
+INSERT INTO "sensors" VALUES('2013-07-08 15:14:00','19:5d:ee3e00',3,'Petes Desk',30.62,30);
+INSERT INTO "sensors" VALUES('2013-07-08 15:14:01','19:5d:ee3e00',1,'Petes Freezer',-20.87,-20);
+INSERT INTO "sensors" VALUES('2013-07-08 15:15:11','0',1,'Large Fridge 1',8,8);
+INSERT INTO "sensors" VALUES('2013-07-08 15:15:18','0',2,'Small Fridge Kitchen',0,8);
+INSERT INTO "sensors" VALUES('2013-07-08 15:15:24','0',3,'Freezer',0,-2);
+INSERT INTO "sensors" VALUES('2013-07-08 15:15:28','0',4,'?',0,5.5);
+INSERT INTO "sensors" VALUES('2013-07-08 15:15:35','1',5,'Laudry Room Freezer Right',0,-5);
+INSERT INTO "sensors" VALUES('2013-07-08 15:15:28','1',6,'Laundry Room Freezer Left',0,-5);
+INSERT INTO "sensors" VALUES('2013-07-08 15:15:28','1',7,'Freezer 2 Laundry Room',0,-2);
+INSERT INTO "sensors" VALUES('2013-07-08 15:15:28','1',8,'Small Freezer Laundry Room',0,-2);

@@ -1,0 +1,16 @@
+script.
+	$('.update').removeClass('ui-disabled');
+	$('.update').on('click',function(e) {
+		$(this).addClass('ui-disabled');
+		e.preventDefault();
+		$.ajax({url:"/?func=update"}).done(
+			function(jdat) {
+				var data = JSON.parse(jdat);
+				msgpop(data.popmsg,{title:'System Update'});
+				$('.update').removeClass('ui-disabled');
+		});
+	});
+
+div
+	a(href="#", data-role="button", data-inline="true", data-theme="b",data-icon="check", class="update") Update Now
+

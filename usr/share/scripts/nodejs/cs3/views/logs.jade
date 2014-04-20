@@ -1,0 +1,34 @@
+script.
+	function dologs(){
+		var lines = $('#lines').val();
+		$.ajax({url:"/?func=getlog&lines="+lines}).done(
+			function(logs) {
+				$('pre#logs').html(logs).hide().slideDown('slow');
+		});	
+	}
+	
+	var refresh = 10000;
+	window.clearTimeout(logtmr);
+	var logtmr = setInterval(function(){
+		refresh = $('#refresh').val();
+		if($('pre#logs').is(":hidden")) return window.clearTimeout(logtmr);
+		dologs();		
+
+	},refresh);
+	
+form#syslog
+	fieldset.cs(class="ui-grid-c")
+		div(class="ui-block-a" )
+			div(data-role="fieldcontain")
+				label(for="lines") Lines
+				input(type="range" name="lines" id="lines" min="10" max="250" step="10",data-theme="c", value="20")		
+		
+		div(class="ui-block-b" )
+			div(data-role="fieldcontain")
+				label(for="refresh") Refresh
+				input(type="range" name="refresh" id="refresh" min="5" max="60" step="5",data-theme="c", value="10")	
+
+	br
+	pre#logs(style="font-size:1.2em;")
+	script.
+		dologs();

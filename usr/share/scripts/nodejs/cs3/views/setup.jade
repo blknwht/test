@@ -1,0 +1,22 @@
+extends layout
+
+block head
+
+		
+block content
+	div(data-role="fieldcontain",style="margin:0 auto; width:720px;padding-left:80px")
+		fieldset(data-role="controlgroup", data-type="horizontal",data-mini="true")
+			-var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+			-var i = 1
+			each month in months
+				input(type="radio", name="when", id="m"+i, value="m."+i)
+				label(for="m"+i)=month
+				-i=i+1
+			
+	div(class="chart-container", id="chart1")
+		a(class="print",href="#", data-role="button", data-mini="true", data-inline="true",style="float:right;position:relative;top:-40px;right:11%") Print
+		h3()
+		div(class="chart",style="height:500px;")
+		div#report(style="display:none;")
+			
+

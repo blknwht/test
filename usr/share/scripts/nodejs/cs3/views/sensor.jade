@@ -1,0 +1,63 @@
+script.
+	var pv = {chart:$('#schart'),ex:$('.excel'),zid:g_zid,dwm:'d',os:0,fb:$('#nav > a'),loader:false}; 
+	
+	function doGraph(cb){
+		gData(pv); 
+		g_zid=null; 
+		if(typeof(cb)=="function") cb();
+	}
+		
+	if(g_zid) doGraph();
+	pv.ex.attr('href','?func=excel&zid='+pv.zid+'&os=0&fq=d');
+	
+	pv.fb.click(function(e){
+		pv.ex.attr('href','?func=excel&zid='+pv.zid+'&os='+pv.os+'&fq='+pv.dwm);
+		pv.dwm = $("input[name='frq']:checked").attr('id');		
+		if(this.id == 'fwd' && pv.os > -1) return;
+		if(this.id == 'bak') pv.os --; else pv.os ++;
+		pv.fb.addClass('ui-disabled');
+		doGraph(function(){ pv.fb.removeClass('ui-disabled');});
+	});	
+	
+	$('input[name=frq]').change(function(e){
+		pv.dwm = this.id;
+		doGraph();
+		pv.os = 0;
+		pv.ex.attr('href','?func=excel&zid='+pv.zid+'&os='+pv.os+'&fq='+pv.dwm);
+	});	
+	
+	$('#schart .chart').height(( cdheight()-160) +'px');	
+
+div(class="chart-container", id="schart")
+	div(class="ui-grid-b")#head
+		fieldset(data-role="controlgroup", data-type="horizontal",data-mini="true",class="ui-block-a")#nav
+			a#bak(class="ui-btn ui-btn-icon-notext ui-corner-left ui-btn-up-c", title="Up", data-theme="c", data-wrapperels="span", data-iconshadow="true", data-shadow="true", data-corners="true", href="#", data-role="button", data-icon="arrow-u", data-iconpos="notext")
+				span(class="ui-btn-inner ui-corner-left")
+					span(class="ui-btn-text") L
+					span(class="ui-icon ui-icon-arrow-l ui-icon-shadow") &nbsp;
+			a#fwd(class="ui-btn ui-btn-icon-notext ui-corner-left ui-btn-up-c", title="Up", data-theme="c", data-wrapperels="span", data-iconshadow="true", data-shadow="true", data-corners="true", href="#", data-role="button", data-icon="arrow-u", data-iconpos="notext")
+				span(class="ui-btn-inner ui-corner-left")
+					span(class="ui-btn-text") R
+					span(class="ui-icon ui-icon-arrow-r ui-icon-shadow") &nbsp;
+
+			
+		fieldset(data-role="controlgroup", data-type="horizontal",data-mini="true",class="ui-block-b",style="text-align:center;")
+			//a(type="radio", name="fb", id="bbak", data-icon="arrow-l", data-iconpos="notext",class="ui-btn-up-c ui-btn ui-btn-icon-notext")
+
+			input(type="radio", name="frq", id="d",checked="checked")
+			label(for="d") Day
+			input(type="radio", name="frq", id="w")
+			label(for="w") Week
+			input(type="radio", name="frq", id="m")
+			label(for="m") Month
+
+		fieldset(class="ui-block-c",style="float:right; text-align:right")
+			a(class="excel",href="#", onclick="this.blur();",data-role="button", data-mini="true", data-inline="true",data-ajax="false") Excel
+			
+	h3.top
+	div(class="chart",style="height:600px;")
+	h3.bot
+
+	div#report(style="display:none;")
+			
+

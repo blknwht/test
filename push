@@ -1,0 +1,39 @@
+echo "passphrase = enigma"
+#!/bin/bash
+if [[ ! -d .git ]]; then
+	echo "This is not a GIT REPO Folder"
+	exit 1
+fi
+
+if [[ $1 ]]; then
+	MSG=$1
+else
+	echo "Usage gitpush 'Description of Changes'"
+	exit 1
+fi
+
+GITPAK="f61d8371aae962b321c1be157e2e560283680166"
+REPO=${PWD##*/}
+URL="https://pacmac:$GITPAK@github.com/pacmac/$REPO.git"
+# git remote set-url origin https://pacmac:f61d8371aae962b321c1be157e2e560283680166@github.com/pacmac/cs3.git
+
+echo "===="
+echo "Removing Hidden & Temporary Files..."
+sudo find . -name "._.DS_Store" -print0 | xargs -0 rm -rf
+sudo find . -name ".DS_Store" -print0 | xargs -0 rm -rf
+sudo find . -name "._*" -print0 | xargs -0 rm -rf
+sudo find . -name "Thumbs.db" -print0 | xargs -0 rm -rf
+sudo find . -name ".TemporaryItems" -print0 | xargs -0 rm -rf
+echo "===="
+echo "Changing Ownership & Permissions..."
+sudo chown -R nobody:nobody .
+sudo find . -name "*.sh" -exec chmod +x {} \;
+sudo find . -name "*.py" -exec chmod +x {} \;
+
+echo "===="
+echo "Adding & Pushing Files to GIT.."
+echo "===="
+git add . --all
+git commit -a -m "$MSG" 
+git push -u origin master
+

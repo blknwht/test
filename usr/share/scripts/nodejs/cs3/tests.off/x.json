@@ -1,0 +1,29 @@
+script.
+	$('.chart').height( ((cdheight()-150) / 2) +'px');
+	
+	$('.chart-container').click(function(e){
+		var zid = $(this).attr('data-zid');
+		page({href:'@sensor'},function(page,div,data){
+			div.attr('data-zid',zid);div.html(data).trigger("create").show();
+			graph({chart:$('#schart'),os:0,dwm:'d',sid:pv.zid,loader:true});
+		})
+	});
+	
+	window.clearTimeout(chtmr); var chtmr = setInterval(function(){if(!$('#home').is(":hidden")) home()},60000); 
+
+div(class="ui-grid-a", id="chart_wr")
+	div(class="ui-block-a chart-container", id="chart1")
+		h3.top
+		div(class="chart", data-role="none",alt="Click to Zoom")
+		
+	div(class="ui-block-b chart-container", id="chart2")
+		h3.top
+		div(class="chart", data-role="none",alt="Click to Zoom")
+		
+	div(class="ui-block-a chart-container", id="chart3")
+		h3.top
+		div(class="chart", data-role="none",alt="Click to Zoom")
+		
+	div(class="ui-block-b chart-container", id="chart4")
+		h3.top
+		div(class="chart", data-role="none",alt="Click to Zoom")
