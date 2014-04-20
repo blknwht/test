@@ -1,5 +1,11 @@
 echo "passphrase = enigma"
 #!/bin/bash
+
+if [ "$(id -u)" != "0" ]; then
+	echo "You must be root."
+	exit 1
+fi
+
 if [[ ! -d .git ]]; then
 	echo "This is not a GIT REPO Folder"
 	exit 1
@@ -26,14 +32,15 @@ sudo find . -name "Thumbs.db" -print0 | xargs -0 rm -rf
 sudo find . -name ".TemporaryItems" -print0 | xargs -0 rm -rf
 echo "===="
 echo "Changing Ownership & Permissions..."
-sudo chown -R nobody:nobody .
-sudo find . -name "*.sh" -exec chmod +x {} \;
-sudo find . -name "*.py" -exec chmod +x {} \;
+sudo chown -R nobody:nobody *.*
+sudo chmod -R 755 *.*
+#sudo find . -name "*.sh" -exec chmod +x {} \;
+#sudo find . -name "*.py" -exec chmod +x {} \;
 
 echo "===="
 echo "Adding & Pushing Files to GIT.."
 echo "===="
-git add . --all
-git commit -a -m "$MSG" 
-git push -u origin master
+sudo git add . --all
+sudo git commit -a -m "$MSG" 
+sudo git push -u origin master
 
